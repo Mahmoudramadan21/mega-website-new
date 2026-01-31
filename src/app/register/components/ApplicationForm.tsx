@@ -113,19 +113,6 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
         Apply to MEGA Now
       </h3>
 
-      {/* Success message */}
-      {submitSuccess && (
-        <div
-          className="
-            mb-10 p-6 rounded-2xl text-center font-medium
-            bg-green-50 border border-green-200
-            text-green-800
-          "
-        >
-          Application submitted successfully! Well&apos; get back to you soon.
-        </div>
-      )}
-
       {/* Error message */}
       {submitError && (
         <div
@@ -136,19 +123,6 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
           "
         >
           {submitError}
-        </div>
-      )}
-
-      {Object.keys(errors).length > 0 && (
-        <div className="mb-8 p-6 rounded-2xl bg-red-50 border border-red-200 text-red-800">
-          <p className="font-bold mb-3">فيه أخطاء في الفورم، راجع الحقول دي:</p>
-          <ul className="list-disc pr-6 space-y-1">
-            {Object.entries(errors).map(([key, err]) => (
-              <li key={key}>
-                {key}: {err?.message || "خطأ غير معروف"}
-              </li>
-            ))}
-          </ul>
         </div>
       )}
 
