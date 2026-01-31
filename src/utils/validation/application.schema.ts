@@ -620,11 +620,11 @@ export const applicationSchema = z
       dataScienceProject: 50,
 
       // CS - Computer Science
-      csKeyword: 5,
-      csArrayIndex: 5,
-      csOopPrinciple: 30,
-      csStlContainer: 20,
-      csTimeComplexity: 30,
+      csKeyword: 1,
+      csArrayIndex: 1,
+      csOopPrinciple: 1,
+      csStlContainer: 1,
+      csTimeComplexity: 1,
 
       // Business Analysis
       baRole: 40,
