@@ -1,19 +1,25 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { useCountdown } from '@/hooks/useCountdown';
-import { ApplicationClosedMessage, RegistrationCountdown, RegistrationDetails, RegistrationHero, SuccessModal } from '@/components/ui';
-import ApplicationForm from './components/ApplicationForm';
+import { useCountdown } from "@/hooks/useCountdown";
+import {
+  ApplicationClosedMessage,
+  RegistrationCountdown,
+  RegistrationDetails,
+  RegistrationHero,
+  SuccessModal,
+} from "@/components/ui";
+import ApplicationForm from "./components/ApplicationForm";
 
-import Script from 'next/script';
+import Script from "next/script";
 
 // ────────────────────────────────────────────────
 // Application static data (can be moved to data file later)
 // ────────────────────────────────────────────────
 const applicationInfo = {
   title: "MEGA Team Application 2026",
-  deadline: "2026-03-31T23:59:59Z",
+  deadline: "2026-02-06T06:00:00Z",
   description: `MEGA Team
   Empowering Tech Minds Shaping Futures
 
@@ -41,7 +47,8 @@ const applicationInfo = {
   • PR and Fundraising
   • Project Management
 
-  Apply Now and Start Your Journey with MEGA Team`,
+  Apply Now and Start Your Journey with MEGA Team
+  `,
   images: [
     {
       src: "/images/mega-team-application-hero.jpg",
@@ -53,12 +60,21 @@ const applicationInfo = {
   state: "open" as "open" | "closed",
 };
 
+const applicationNotice = {
+  title: "Important Notice",
+  points: [
+    "This form can be submitted only one time.",
+    "Please make sure that all your information is correct before submitting.",
+    "If you need to change or update any of your data after submission, kindly contact us through our official page or WhatsApp.",
+  ],
+};
+
 export default function RegisterClient() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const { timeLeft, isExpired } = useCountdown(applicationInfo.deadline);
 
-  const isApplicationClosed = isExpired || applicationInfo.state === 'closed';
+  const isApplicationClosed = isExpired || applicationInfo.state === "closed";
 
   return (
     <>
@@ -116,6 +132,19 @@ export default function RegisterClient() {
               title={applicationInfo.title}
               description={applicationInfo.description}
             />
+
+            {/* Important Notice */}
+            <div className="mt-12 mb-10 rounded-xl border border-yellow-300 bg-yellow-50 p-6">
+              <h3 className="text-lg font-semibold text-yellow-800 mb-3">
+                ⚠️ {applicationNotice.title}
+              </h3>
+
+              <ul className="list-disc pl-5 space-y-2 text-yellow-900">
+                {applicationNotice.points.map((point, idx) => (
+                  <li key={idx}>{point}</li>
+                ))}
+              </ul>
+            </div>
 
             {/* Application form – main interactive part */}
             <ApplicationForm onSuccess={() => setIsSuccessModalOpen(true)} />

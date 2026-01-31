@@ -173,23 +173,35 @@ export const applicationSchema = z
     // Core / always required fields
     // ──────────────────────────────────────────────────────────────
     fullName: shortAnswer(3, 120, "Full name"),
-    email: z.string().trim().email({ message: "Please enter a valid email address" }).max(160),
+    email: z
+      .string()
+      .trim()
+      .email({ message: "Please enter a valid email address" })
+      .max(160),
     phoneNumber: z.string().trim().regex(PHONE_REGEX, {
-      message: "Please enter a valid Egyptian mobile number (e.g., 01234567890 or +201234567890)",
+      message:
+        "Please enter a valid Egyptian mobile number (e.g., 01234567890 or +201234567890)",
     }),
     facebookLink: requiredUrlField,
-    discordUsername: z.string().trim().min(1, { message: "This field is required" }).max(64).optional(),
+    discordUsername: z
+      .string()
+      .trim()
+      .min(1, { message: "This field is required" })
+      .max(64)
+      .optional(),
     linkedInLink: requiredUrlField,
     gitHubLink: requiredUrlField,
     university: shortAnswer(2, 120, "University").optional(),
     college: shortAnswer(2, 120, "College").optional(),
-    academicYear: z.enum([
-      "LVL 000 (for Engineering Students)",
-      "First Year",
-      "Second Year",
-      "Third Year",
-      "Fourth Year",
-    ]).optional(),
+    academicYear: z
+      .enum([
+        "LVL 000 (for Engineering Students)",
+        "First Year",
+        "Second Year",
+        "Third Year",
+        "Fourth Year",
+      ])
+      .optional(),
     location: shortAnswer(2, 120, "Location").optional(),
 
     // ──────────────────────────────────────────────────────────────
@@ -202,13 +214,21 @@ export const applicationSchema = z
     proudAchievement: longAnswer(50, 1200, "Proudest achievement"),
     softSkills: longAnswer(50, 1400, "Soft skills & experiences"),
     balanceTime: longAnswer(40, 1000, "How you balance time"),
-    teamMotivation: longAnswer(50, 1200, "What motivates/demotivates you in teams"),
+    teamMotivation: longAnswer(
+      50,
+      1200,
+      "What motivates/demotivates you in teams",
+    ),
     handleFeedback: longAnswer(40, 1000, "How you handle feedback"),
     neededHelp: longAnswer(60, 1200, "Time you needed help"),
     teamChallenge: longAnswer(70, 1400, "Team challenge experience"),
     newSkills: longAnswer(40, 1000, "Skills you want to gain"),
     describeYourself: longAnswer(20, 400, "Describe yourself in three words"),
-    hoursPerWeek: z.string().trim().min(1, { message: "Please enter hours per week" }).regex(/^\d+$/, { message: "Must be a whole number" }),
+    hoursPerWeek: z
+      .string()
+      .trim()
+      .min(1, { message: "Please enter hours per week" })
+      .regex(/^\d+$/, { message: "Must be a whole number" }),
 
     // ──────────────────────────────────────────────────────────────
     // General self-assessment ratings – optional
@@ -223,15 +243,17 @@ export const applicationSchema = z
     // ──────────────────────────────────────────────────────────────
     // Track & Circle selection
     // ──────────────────────────────────────────────────────────────
-    track: z.enum(
-      ["Technical Only", "Non-Technical Only", "Both"],
-      { message: "Please select a track" }
-    ),
+    track: z.enum(["Technical Only", "Non-Technical Only", "Both"]).optional(),
 
     technicalCircle: z
       .enum([
-        "UIUX", "Frontend", "Backend", "Flutter", "Data Science",
-        "CS - Computer Science", "Business Analysis",
+        "UIUX",
+        "Frontend",
+        "Backend",
+        "Flutter",
+        "Data Science",
+        "CS - Computer Science",
+        "Business Analysis",
       ])
       .optional(),
 
@@ -251,7 +273,7 @@ export const applicationSchema = z
     // ──────────────────────────────────────────────────────────────
     // Technical circle-specific fields (all optional at schema level)
     // ──────────────────────────────────────────────────────────────
-    
+
     // UIUX
     uiuxMeaning: z.string().trim().optional(),
     uiuxTools: z.string().trim().optional(),
@@ -305,7 +327,7 @@ export const applicationSchema = z
     // ──────────────────────────────────────────────────────────────
     // Non-Technical circle-specific fields (all optional at schema level)
     // ──────────────────────────────────────────────────────────────
-    
+
     // HR - Human Resources (text fields)
     hrWhyJoin: z.string().trim().optional(),
     hrExperience: z.string().trim().optional(),
@@ -415,15 +437,16 @@ export const applicationSchema = z
     const validateCircle = (
       circle: string | undefined,
       requiredFieldsMap: Record<string, string[]>,
-      minLengths: Record<string, number>
+      minLengths: Record<string, number>,
     ) => {
+      if (!data.track) return;
       if (!circle) return;
       const requiredFields = requiredFieldsMap[circle];
       if (!requiredFields) return;
 
       requiredFields.forEach((field) => {
         const rawValue = data[field as keyof typeof data];
-        const value = typeof rawValue === 'string' ? rawValue.trim() : '';
+        const value = typeof rawValue === "string" ? rawValue.trim() : "";
 
         // Check if field is empty (required validation)
         if (!value) {
@@ -456,9 +479,13 @@ export const applicationSchema = z
     // ──────────────────────────────────────────────────────────────
     // Validate track selection
     // ──────────────────────────────────────────────────────────────
-    
+
     // For "Technical Only" track, technical circle must be selected
-    if (data.track === "Technical Only" && !data.technicalCircle) {
+    if (
+      data.track &&
+      data.track === "Technical Only" &&
+      !data.technicalCircle
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Please select a technical circle for the Technical track",
@@ -467,16 +494,21 @@ export const applicationSchema = z
     }
 
     // For "Non-Technical Only" track, non-technical circle must be selected
-    if (data.track === "Non-Technical Only" && !data.nonTechnicalCircle) {
+    if (
+      data.track &&
+      data.track === "Non-Technical Only" &&
+      !data.nonTechnicalCircle
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Please select a non-technical circle for the Non-Technical track",
+        message:
+          "Please select a non-technical circle for the Non-Technical track",
         path: ["nonTechnicalCircle"],
       });
     }
 
     // For "Both" track, both circles must be selected
-    if (data.track === "Both") {
+    if (data.track && data.track === "Both") {
       if (!data.technicalCircle) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -487,7 +519,8 @@ export const applicationSchema = z
       if (!data.nonTechnicalCircle) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Please select a non-technical circle when choosing Both tracks",
+          message:
+            "Please select a non-technical circle when choosing Both tracks",
           path: ["nonTechnicalCircle"],
         });
       }
@@ -503,14 +536,14 @@ export const applicationSchema = z
       uiuxDifference: 30,
       uiuxPrinciples: 20,
       uiuxResearch: 30,
-      
+
       // Frontend
       frontendHtml: 30,
       frontendHeadingTag: 5,
       frontendCssColor: 20,
       frontendJsVars: 40,
       frontendReactComponents: 40,
-      
+
       // Backend
       backendClassObject: 30,
       backendDeleteTruncate: 30,
@@ -518,28 +551,28 @@ export const applicationSchema = z
       backendInterfaceAbstract: 40,
       backendValueReference: 40,
       backendRest: 40,
-      
+
       // Flutter
       flutterWidget: 40,
       flutterState: 40,
       flutterMainDart: 30,
       flutterSyncAsync: 30,
       flutterStateManagement: 40,
-      
+
       // Data Science
       dataScienceTopics: 30,
       dataScienceTime: 20,
       dataScienceTools: 10,
       dataSciencePythonLevel: 20,
       dataScienceProject: 50,
-      
+
       // CS - Computer Science
       csKeyword: 5,
       csArrayIndex: 5,
       csOopPrinciple: 30,
       csStlContainer: 20,
       csTimeComplexity: 30,
-      
+
       // Business Analysis
       baRole: 40,
       baDifference: 50,
@@ -548,7 +581,11 @@ export const applicationSchema = z
       baDiagrams: 40,
     };
 
-    validateCircle(data.technicalCircle, requiredTechnicalFields, technicalMinLengths);
+    validateCircle(
+      data.technicalCircle,
+      requiredTechnicalFields,
+      technicalMinLengths,
+    );
 
     // ──────────────────────────────────────────────────────────────
     // Non-technical circle field validation
@@ -636,7 +673,11 @@ export const applicationSchema = z
       mediaMgCuriousSide: 40,
     };
 
-    validateCircle(data.nonTechnicalCircle, requiredNonTechnicalFields, nonTechnicalMinLengths);
+    validateCircle(
+      data.nonTechnicalCircle,
+      requiredNonTechnicalFields,
+      nonTechnicalMinLengths,
+    );
   });
 
 // ──────────────────────────────────────────────────────────────────────────

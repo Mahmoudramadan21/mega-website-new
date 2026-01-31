@@ -46,12 +46,8 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
 
   const form = useForm<ApplicationFormData>({
     resolver: zodResolver(applicationSchema),
-    defaultValues: {
-      track: undefined,
-      technicalCircle: undefined,
-      nonTechnicalCircle: undefined,
-    },
     shouldUnregister: true,
+    shouldFocusError: true,
     mode: "onChange",
   });
 
@@ -113,6 +109,7 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
         Apply to MEGA Now
       </h3>
 
+
       {/* Error message */}
       {submitError && (
         <div
@@ -125,6 +122,7 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
           {submitError}
         </div>
       )}
+
 
       {/* Main form grid */}
       <form
