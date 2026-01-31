@@ -50,7 +50,7 @@ function Header() {
 
   return (
     // Main header: sticky at top with glass-morphism effect
-    <header className="sticky top-0 z-50 py-4 bg-white/20 backdrop-blur-xl shadow-[0_4px_16px_0_rgba(13,13,13,0.16)]">
+    <header className="sticky top-0 z-50 py-4 bg-white bg-white/20 backdrop-blur-xl shadow-[0_4px_16px_0_rgba(13,13,13,0.16)]">
       {/* Container for header content with horizontal layout */}
       <div className="container flex items-center justify-between gap-2">
         {/* Logo */}
