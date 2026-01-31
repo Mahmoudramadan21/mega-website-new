@@ -22,10 +22,13 @@ const requiredString = (min: number, max: number, field: string) =>
     .min(min, { message: `${field} must be at least ${min} characters long` })
     .max(max, { message: `${field} cannot exceed ${max} characters` });
 
-const optionalUrlField = z.preprocess(
-  (val) => (val === "" ? undefined : val),
-  z.string().url({ message: "Please enter a valid URL" }).optional(),
-);
+const optionalUrlField = z
+  .string()
+  .trim()
+  .refine((val) => val === "" || /^https?:\/\/.+/.test(val), {
+    message: "Please enter a valid URL",
+  })
+  .optional();
 
 /**
  * Creates a validator for long-form text answers
@@ -33,7 +36,8 @@ const optionalUrlField = z.preprocess(
  * @param max - Maximum allowed length (default: 2000)
  * @param field - Field name for error messages
  */
-const longAnswer = (min = 30, max = 2000, field: string) => requiredString(min, max, field);
+const longAnswer = (min = 30, max = 2000, field: string) =>
+  requiredString(min, max, field);
 
 /**
  * Creates a validator for short-form text answers
@@ -41,7 +45,8 @@ const longAnswer = (min = 30, max = 2000, field: string) => requiredString(min, 
  * @param max - Maximum allowed length (default: 500)
  * @param field - Field name for error messages
  */
-const shortAnswer = (min = 2, max = 500, field: string) => requiredString(min, max, field);
+const shortAnswer = (min = 2, max = 500, field: string) =>
+  requiredString(min, max, field);
 
 /**
  * Validator for required URL fields
@@ -63,109 +68,152 @@ const rating1to5 = z.enum(["1", "2", "3", "4", "5"], {
 // Required fields per technical circle
 // ──────────────────────────────────────────────────────────────────────────
 const requiredTechnicalFields: Record<string, string[]> = {
-  UIUX: ['uiuxMeaning', 'uiuxTools', 'uiuxDifference', 'uiuxPrinciples', 'uiuxResearch'],
-  Frontend: ['frontendHtml', 'frontendHeadingTag', 'frontendCssColor', 'frontendJsVars', 'frontendReactComponents'],
-  Backend: ['backendClassObject', 'backendDeleteTruncate', 'backendSqlQuery', 'backendInterfaceAbstract', 'backendValueReference', 'backendRest'],
-  Flutter: ['flutterWidget', 'flutterState', 'flutterMainDart', 'flutterSyncAsync', 'flutterStateManagement'],
-  'Data Science': ['dataScienceTopics', 'dataScienceTime', 'dataScienceTools', 'dataSciencePythonLevel', 'dataScienceProject'],
-  'CS - Computer Science': ['csKeyword', 'csArrayIndex', 'csOopPrinciple', 'csStlContainer', 'csTimeComplexity'],
-  'Business Analysis': ['baRole', 'baDifference', 'baProject', 'baRequirements', 'baDiagrams'],
+  UIUX: [
+    "uiuxMeaning",
+    "uiuxTools",
+    "uiuxDifference",
+    "uiuxPrinciples",
+    "uiuxResearch",
+  ],
+  Frontend: [
+    "frontendHtml",
+    "frontendHeadingTag",
+    "frontendCssColor",
+    "frontendJsVars",
+    "frontendReactComponents",
+  ],
+  Backend: [
+    "backendClassObject",
+    "backendDeleteTruncate",
+    "backendSqlQuery",
+    "backendInterfaceAbstract",
+    "backendValueReference",
+    "backendRest",
+  ],
+  Flutter: [
+    "flutterWidget",
+    "flutterState",
+    "flutterMainDart",
+    "flutterSyncAsync",
+    "flutterStateManagement",
+  ],
+  "Data Science": [
+    "dataScienceTopics",
+    "dataScienceTime",
+    "dataScienceTools",
+    "dataSciencePythonLevel",
+    "dataScienceProject",
+  ],
+  "CS - Computer Science": [
+    "csKeyword",
+    "csArrayIndex",
+    "csOopPrinciple",
+    "csStlContainer",
+    "csTimeComplexity",
+  ],
+  "Business Analysis": [
+    "baRole",
+    "baDifference",
+    "baProject",
+    "baRequirements",
+    "baDiagrams",
+  ],
 };
 
 // ──────────────────────────────────────────────────────────────────────────
 // Required fields per non-technical circle
 // ──────────────────────────────────────────────────────────────────────────
 const requiredNonTechnicalFields: Record<string, string[]> = {
-  'HR - Human Resources': [
-    'hrWhyJoin', 
-    'hrExperience', 
-    'hrHandleMember', 
-    'hrQualities', 
-    'hrActivity', 
-    'hrRoleDescription', 
-    'hrImportantRule',
-    'hrPunctualityCommitment',
-    'hrActiveParticipation',
-    'hrTeamworkCollaboration',
-    'hrTimeManagement',
-    'hrPositivityMotivation',
-    'hrResponsibilityOwnership',
-    'hrFlexibilityAdaptability',
-    'hrRespectRules',
-    'hrSolveProblems'
+  "HR - Human Resources": [
+    "hrWhyJoin",
+    "hrExperience",
+    "hrHandleMember",
+    "hrQualities",
+    "hrActivity",
+    "hrRoleDescription",
+    "hrImportantRule",
+    "hrPunctualityCommitment",
+    "hrActiveParticipation",
+    "hrTeamworkCollaboration",
+    "hrTimeManagement",
+    "hrPositivityMotivation",
+    "hrResponsibilityOwnership",
+    "hrFlexibilityAdaptability",
+    "hrRespectRules",
+    "hrSolveProblems",
   ],
-  'PR&FR - Public Relations & Fundraising': [
-    'prfrWhyChoose', 
-    'prfrAddToCircle', 
-    'prfrSkillsAfterYear', 
-    'prfrConvinceOthers', 
-    'prfrSuddenTask', 
-    'prfrHoursPerWeek', 
-    'prfrAttendMeetings'
+  "PR&FR - Public Relations & Fundraising": [
+    "prfrWhyChoose",
+    "prfrAddToCircle",
+    "prfrSkillsAfterYear",
+    "prfrConvinceOthers",
+    "prfrSuddenTask",
+    "prfrHoursPerWeek",
+    "prfrAttendMeetings",
   ],
-  'R&D - Research & Development': [
-    'rndKnowledge', 
-    'rndImportance', 
-    'rndLastBook', 
-    'rndDigitalContent', 
-    'rndDevelopSelf', 
-    'rndStayMotivated', 
-    'rndUnlimitedResources',
-    'rndWordSkills',
-    'rndSearchingSkills',
-    'rndTimeManagement'
+  "R&D - Research & Development": [
+    "rndKnowledge",
+    "rndImportance",
+    "rndLastBook",
+    "rndDigitalContent",
+    "rndDevelopSelf",
+    "rndStayMotivated",
+    "rndUnlimitedResources",
+    "rndWordSkills",
+    "rndSearchingSkills",
+    "rndTimeManagement",
   ],
-  'PM - Project Management': [
-    'pmCommunicationWay', 
-    'pmTeamLeaderFocus', 
-    'pmNewProblem', 
-    'pmChangesNormal', 
-    'pmConnectGoalTasks', 
-    'pmPersonalQuality', 
-    'pmTaskTool', 
-    'pmFixedFlexiblePlan', 
-    'pmManageTime', 
-    'pmPresentIdea'
+  "PM - Project Management": [
+    "pmCommunicationWay",
+    "pmTeamLeaderFocus",
+    "pmNewProblem",
+    "pmChangesNormal",
+    "pmConnectGoalTasks",
+    "pmPersonalQuality",
+    "pmTaskTool",
+    "pmFixedFlexiblePlan",
+    "pmManageTime",
+    "pmPresentIdea",
   ],
-  'EO - Event Operations': [
-    'eoKnowledge', 
-    'eoWhyChoose', 
-    'eoOfflineTimes', 
-    'eoUnderPressure', 
-    'eoNotPrefer', 
-    'eoTeamProblem'
+  "EO - Event Operations": [
+    "eoKnowledge",
+    "eoWhyChoose",
+    "eoOfflineTimes",
+    "eoUnderPressure",
+    "eoNotPrefer",
+    "eoTeamProblem",
   ],
-  'Media (Graphic Design)': [
-    'mediaGdAboutSelf', 
-    'mediaGdInspiration', 
-    'mediaGdInterest', 
-    'mediaGdSocialExperience', 
-    'mediaGdSoftware', 
-    'mediaGdApproachProject', 
-    'mediaGdFeedback', 
-    'mediaGdTeamExperience', 
-    'mediaGdDeadlines', 
-    'mediaGdVagueInstructions', 
-    'mediaGdShortTimePost', 
-    'mediaGdDisagreeDesign'
+  "Media (Graphic Design)": [
+    "mediaGdAboutSelf",
+    "mediaGdInspiration",
+    "mediaGdInterest",
+    "mediaGdSocialExperience",
+    "mediaGdSoftware",
+    "mediaGdApproachProject",
+    "mediaGdFeedback",
+    "mediaGdTeamExperience",
+    "mediaGdDeadlines",
+    "mediaGdVagueInstructions",
+    "mediaGdShortTimePost",
+    "mediaGdDisagreeDesign",
   ],
-  'Media (Video Editing)': [
-    'mediaVeInterest', 
-    'mediaVeTriedEditing', 
-    'mediaVeHopeLearn', 
-    'mediaVeDeadlinePlan', 
-    'mediaVeDifferentIdea', 
-    'mediaVeTools', 
-    'mediaVePatience', 
-    'mediaVeHoursPerWeek', 
-    'mediaVeProjectsLink', 
-    'mediaVeComments'
+  "Media (Video Editing)": [
+    "mediaVeInterest",
+    "mediaVeTriedEditing",
+    "mediaVeHopeLearn",
+    "mediaVeDeadlinePlan",
+    "mediaVeDifferentIdea",
+    "mediaVeTools",
+    "mediaVePatience",
+    "mediaVeHoursPerWeek",
+    "mediaVeProjectsLink",
+    "mediaVeComments",
   ],
-  'Media (Motion Graphics)': [
-    'mediaMgExciting', 
-    'mediaMgMixDesign', 
-    'mediaMgCreateAnimation', 
-    'mediaMgCuriousSide'
+  "Media (Motion Graphics)": [
+    "mediaMgExciting",
+    "mediaMgMixDesign",
+    "mediaMgCreateAnimation",
+    "mediaMgCuriousSide",
   ],
 };
 
@@ -194,8 +242,8 @@ export const applicationSchema = z
       .min(1, { message: "This field is required" })
       .max(64)
       .optional(),
-    linkedInLink: requiredUrlField,
-    gitHubLink: requiredUrlField,
+    linkedInLink: optionalUrlField,
+    gitHubLink: optionalUrlField,
     university: shortAnswer(2, 120, "University").optional(),
     college: shortAnswer(2, 120, "College").optional(),
     academicYear: z
