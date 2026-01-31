@@ -32,11 +32,11 @@ const optionalUrlField = z
 
 /**
  * Creates a validator for long-form text answers
- * @param min - Minimum required length (default: 30)
+ * @param min - Minimum required length (default: 10)
  * @param max - Maximum allowed length (default: 2000)
  * @param field - Field name for error messages
  */
-const longAnswer = (min = 30, max = 2000, field: string) =>
+const longAnswer = (min = 10, max = 2000, field: string) =>
   requiredString(min, max, field);
 
 /**
@@ -260,23 +260,23 @@ export const applicationSchema = z
     // ──────────────────────────────────────────────────────────────
     // Motivational & behavioral questions – always required
     // ──────────────────────────────────────────────────────────────
-    whyJoinMEGA: longAnswer(50, 1800, "Why you want to join MEGA"),
-    hopeToAchieve: longAnswer(40, 1500, "What you hope to achieve"),
-    projectsInterest: longAnswer(40, 1200, "Project interest"),
-    strengthsWeakness: longAnswer(60, 1400, "Key strengths and weakness"),
-    proudAchievement: longAnswer(50, 1200, "Proudest achievement"),
-    softSkills: longAnswer(50, 1400, "Soft skills & experiences"),
-    balanceTime: longAnswer(40, 1000, "How you balance time"),
+    whyJoinMEGA: longAnswer(10, 1800, "Why you want to join MEGA"),
+    hopeToAchieve: longAnswer(10, 1500, "What you hope to achieve"),
+    projectsInterest: longAnswer(10, 1200, "Project interest"),
+    strengthsWeakness: longAnswer(10, 1400, "Key strengths and weakness"),
+    proudAchievement: longAnswer(10, 1200, "Proudest achievement"),
+    softSkills: longAnswer(10, 1400, "Soft skills & experiences"),
+    balanceTime: longAnswer(10, 1000, "How you balance time"),
     teamMotivation: longAnswer(
-      50,
+      100,
       1200,
       "What motivates/demotivates you in teams",
     ),
-    handleFeedback: longAnswer(40, 1000, "How you handle feedback"),
-    neededHelp: longAnswer(60, 1200, "Time you needed help"),
-    teamChallenge: longAnswer(70, 1400, "Team challenge experience"),
-    newSkills: longAnswer(40, 1000, "Skills you want to gain"),
-    describeYourself: longAnswer(20, 400, "Describe yourself in three words"),
+    handleFeedback: longAnswer(10, 1000, "How you handle feedback"),
+    neededHelp: longAnswer(10, 1200, "Time you needed help"),
+    teamChallenge: longAnswer(10, 1400, "Team challenge experience"),
+    newSkills: longAnswer(10, 1000, "Skills you want to gain"),
+    describeYourself: longAnswer(10, 400, "Describe yourself in three words"),
     hoursPerWeek: z
       .string()
       .trim()
@@ -592,7 +592,7 @@ export const applicationSchema = z
 
       // Frontend
       frontendHtml: 10,
-      frontendHeadingTag: 5,
+      frontendHeadingTag: 10,
       frontendCssColor: 10,
       frontendJsVars: 10,
       frontendReactComponents: 10,
