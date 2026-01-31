@@ -19,7 +19,7 @@ import Script from "next/script";
 // ────────────────────────────────────────────────
 const applicationInfo = {
   title: "MEGA Team Application 2026",
-  deadline: "2026-02-06T06:00:00Z",
+  deadline: "2026-02-07T18:00:00Z",
   description: `MEGA Team
   Empowering Tech Minds Shaping Futures
 
@@ -134,7 +134,7 @@ export default function RegisterClient() {
             />
 
             {/* Important Notice */}
-            <div className="mt-12 mb-10 rounded-xl border border-yellow-300 bg-yellow-50 p-6">
+            <div className="-mt-16 mb-10 rounded-xl border border-yellow-300 bg-yellow-50 p-6">
               <h3 className="text-lg font-semibold text-yellow-800 mb-3">
                 ⚠️ {applicationNotice.title}
               </h3>

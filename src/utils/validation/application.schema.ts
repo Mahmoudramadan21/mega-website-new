@@ -22,6 +22,11 @@ const requiredString = (min: number, max: number, field: string) =>
     .min(min, { message: `${field} must be at least ${min} characters long` })
     .max(max, { message: `${field} cannot exceed ${max} characters` });
 
+const optionalUrlField = z.preprocess(
+  (val) => (val === "" ? undefined : val),
+  z.string().url({ message: "Please enter a valid URL" }).optional(),
+);
+
 /**
  * Creates a validator for long-form text answers
  * @param min - Minimum required length (default: 30)
