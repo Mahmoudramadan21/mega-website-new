@@ -1,26 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/digital-numbers');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-neutral-50);
+  /*color: var(--color-neutral-900); */
+}
+
+section {
+  @apply py-4 lg:py-8;
+}
+
+header {
+  font-family: 'Cairo', sans-serif;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary-500);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+@utility nav-hover-bg {
+  background:
+    radial-gradient(
+      90% 120% at 50% -20%,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0.10) 35%,
+      rgba(0, 0, 0, 0.05) 60%,
+      rgba(0, 0, 0, 0) 80%
+    ),
+    linear-gradient(
+      180deg,
+      #eeeeee 0%,
+      #e0e0e0 50%,
+      #ffffff 100%
+    );
+}
+
+@utility font-cairo {
+  font-family: 'Cairo', sans-serif;
+}
+
+@utility font-digital {
+  font-family: 'Digital Numbers', monospace;
+}
+
+
+@layer utilities {
+  .hamburger-line {
+    @apply block h-0.5 w-6 bg-black transition;
+  }
+
+  .focus-outline-primary {
+    @apply focus-visible:ring-2
+           focus-visible:ring-primary-500
+           focus-visible:ring-offset-0
+           ring-offset-neutral-50
+           transition-all duration-200;
+  }
+  
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(31px);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 15s linear infinite;
+    will-change: transform;
+  }
+}
+
+
+@layer components {
+  /* =========================
+     Container
+  ========================= */
+  .container {
+    @apply mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  /* =========================
+     Carousel
+  ========================= */
+  .carousel-x {
+   @apply flex items-center
+          gap-8 lg:gap-10
+          overflow-x-auto
+          snap-x snap-mandatory
+          scroll-smooth
+          py-4;
+  }
+
+  /* =========================
+     Headings
+  ========================= */
+  .heading-primary {
+    @apply font-bold leading-tight text-2xl;
+    
+    /* modern browsers */
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+  .heading-card {
+    @apply font-bold leading-snug text-lg; /* fallback */
+    font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  }
+  .heading-1 {
+    @apply font-bold text-[56px] leading-[120%];
+  }
+
+  .heading-2 {
+    @apply font-bold text-[40px] leading-[120%] capitalize;
+  }
+
+  .heading-3 {
+    @apply font-semibold text-[32px] leading-[120%];
+  }
+
+  /* =========================
+     Section Heading
+  ========================= */
+  .section-title {
+    @apply font-bold leading-tight text-2xl text-primary-500 text-center;
+    
+    /* modern browsers */
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+
+  .section-subtitle {
+    @apply mt-2 mb-6 max-w-185 mx-auto  text-neutral-500 leading-relaxed text-base text-center;
+    
+    font-size: clamp(1rem, 1.2vw, 1.125rem);;
+  }
+
+  /* =========================
+     SubSection
+  ========================= */
+  .subsection-title {
+    @apply text-2xl lg:text-3xl font-semibold text-primary-500;
+  }
+
+  .subsection-description {
+    @apply text-neutral-50 leading-7 lg:leading-loose text-base lg:text-lg text-center lg:text-left;
+  }
+  
+  /* =========================
+     Body / Paragraphs
+  ========================= */
+  .text-body {
+    @apply 
+      leading-relaxed
+      text-base; /* fallback */
+    
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+  }
+
+  .text-body-lg {
+    @apply leading-relaxed text-lg; /* fallback */
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  }
+  
+  .body-large {
+    @apply font-semibold text-[24px] leading-[120%];
+  }
+
+  .body-medium {
+    @apply font-semibold text-[20px] leading-[120%];
+  }
+
+  .body-small {
+    @apply font-normal text-[20px] leading-[120%];
+  }
+
+  /* =========================
+     Buttons
+  ========================= */
+  .btn {
+    @apply py-2 border border-transparent rounded-lg hover:border-primary-500
+         bg-primary-500 hover:bg-transparent text-neutral-50 hover:text-primary-500
+           font-semibold transition-all duration-500;
+  }
+
+  /* =========================
+     Nav Link
+  ========================= */
+  .nav-link {
+    @apply px-3 hover:px-6 py-2 border border-transparent rounded-lg
+           text-lg
+           transition-all duration-300
+           relative;  
+  }
+
+  /* =========================
+     Captions
+  ========================= */
+  .caption-text {
+    @apply font-normal text-[16px] leading-[120%];
+  }
+
+  /* =========================
+     Catd
+  ========================= */
+  .card-container {
+    @apply px-6 lg:px-8 py-4 lg:py-6 rounded-xl;
+  }
+
+  .form-control {
+    @apply
+      w-full
+      px-5 py-3 md:py-4
+      rounded-lg
+      border border-neutral-300
+      outline-0
+      transition-colors
+      focus:border-primary-500;
+  }
+
+  .form-label {
+    @apply block mb-2 font-medium;
+  }
+}
+
+
+@theme inline {
+  /* =========================
+     Colors – Primary
+  ========================= */
+  --color-primary-500: #e2231c;
+  --color-primary-400: #e53733;
+  --color-primary-300: #e84d49;
+  --color-primary-200: #eb6460;
+  --color-primary-100: #ee7a77;
+  --color-primary-50:  #f1908e;
+  --color-primary-25:  #f3a6a4;
+
+  /* =========================
+     Neutral / Gray
+  ========================= */
+  --color-neutral-50:  #f4f4ea;
+  --color-neutral-900: #0d0d0d;
+  --color-neutral-700: #4c4c4c;
+  --color-neutral-500: #7b7b7b;
+  --color-neutral-200: #dcdcdc;
+}
+
+.hero-image-wrapper {
+  clip-path: polygon(
+    0 20%,    
+    30% 0,    
+    70% 0,    
+    100% 20%, 
+    100% 95%, 
+    90% 100%, 
+    75% 100%, 
+    75% 90%,  
+    60% 100%, 
+    40% 100%, 
+    25% 90%,  
+    25% 100%, 
+    10% 100%, 
+    0 95%    
+  );
 }
