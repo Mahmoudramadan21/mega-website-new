@@ -120,12 +120,12 @@ export default function RegisterClient() {
           {/* Main content wrapper */}
           <div className="container py-10 lg:py-16">
             {/* Hero section – large visual + title */}
-            <RegistrationHero
+            {/* <RegistrationHero
               title={`Register for ${applicationInfo.title}`}
               image={applicationInfo.images[0]}
               badge={applicationInfo.state === "open" ? "Open" : undefined}
               badgeColor="#10B981"
-            />
+            /> */}
 
             {/* Event/program details */}
             <RegistrationDetails

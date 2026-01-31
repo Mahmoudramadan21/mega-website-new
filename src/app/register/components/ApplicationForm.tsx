@@ -20,6 +20,7 @@ import TechnicalCircleQuestions from "./TechnicalCircleQuestions";
 import NonTechnicalCircleQuestions from "./NonTechnicalCircleQuestions";
 
 import { SubmitIcon } from "@/assets/icons";
+import TrackSelect from "./TrackSelect";
 
 /**
  * ApplicationForm
@@ -109,7 +110,6 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
         Apply to MEGA Now
       </h3>
 
-
       {/* Error message */}
       {submitError && (
         <div
@@ -122,7 +122,6 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
           {submitError}
         </div>
       )}
-
 
       {/* Main form grid */}
       <form
@@ -144,30 +143,7 @@ function ApplicationForm({ onSuccess }: ApplicationFormProps) {
         <SkillRatingsFields register={register} errors={errors} />
 
         {/* 4. Track selection – controls conditional rendering */}
-        <div className="md:col-span-2 space-y-1.5">
-          <label htmlFor="track" className="form-label">
-            Which track are you applying for? / أي مسار تتقدم له؟{" "}
-            <span className="text-primary-500">*</span>
-          </label>
-          <select
-            id="track"
-            {...register("track")}
-            className={`
-              form-control focus-outline-primary
-              ${errors.track ? "border-primary-400" : ""}
-            `}
-          >
-            <option value="">Select track / اختر المسار</option>
-            <option value="Technical Only">Technical Only</option>
-            <option value="Non-Technical Only">Non-Technical Only</option>
-            <option value="Both">Both Non Technical & Technical</option>
-          </select>
-          {errors.track && (
-            <p className="text-sm text-primary-500 mt-1">
-              {errors.track.message}
-            </p>
-          )}
-        </div>
+        <TrackSelect register={register} errors={errors} />
 
         {/* 5. Technical circle & questions (conditional) */}
         {(selectedTrack === "Technical Only" || selectedTrack === "Both") && (
