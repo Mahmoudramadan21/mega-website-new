@@ -19,7 +19,7 @@ import Script from "next/script";
 // ────────────────────────────────────────────────
 const applicationInfo = {
   title: "MEGA Team Application 2026",
-  deadline: "2026-02-05T22:00:00Z",
+  deadline: "2026-02-05T20:00:00Z",
   description: `MEGA Team
   Empowering Tech Minds Shaping Futures
 
