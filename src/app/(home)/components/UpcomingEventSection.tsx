@@ -8,16 +8,12 @@ import { upcomingEvent } from '@/data/upcoming-event';
 import {
   ArrowRightIcon,
   CalendarIcon,
-  ClockIcon,
   MapPinIcon,
-  RecordIcon,
 } from "@/assets/icons";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   calendar: CalendarIcon,
   "map-pin": MapPinIcon,
-  clock: ClockIcon,
-  record: RecordIcon,
 };
 
 /**
@@ -31,8 +27,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
  * - Best Practices: Clear structure, responsive design, meaningful links
  */
 function UpcomingEventSection() {
-  const { title, description, state, link, images, meta, cta, registration } =
-    upcomingEvent;
+  const { title, description, state, link, images, meta, cta } = upcomingEvent;
 
   return (
     // Main upcoming event section with dark background and vertical padding
@@ -50,7 +45,7 @@ function UpcomingEventSection() {
         </h2>
         {/* Descriptive subtitle with light text for contrast */}
         <p className="section-subtitle text-neutral-300">
-          Don&apos;t miss out on our most important event of this semester
+          Don&apos;t miss out on our upcoming event
         </p>
 
         {/* Event Content Grid */}
@@ -133,30 +128,6 @@ function UpcomingEventSection() {
                 );
               })}
             </div>
-
-            {/* Registration Progress */}
-            {registration && (
-              // Registration progress bar with count display
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="font-bold text-lg text-neutral-200">
-                  {registration.registeredCount}+ Already Registered
-                </p>
-                {/* Accessible progress bar with dynamic width */}
-                <div
-                  className="relative w-full sm:w-80 h-3 overflow-hidden bg-neutral-700 rounded-full"
-                  role="progressbar"
-                  aria-valuenow={registration.progress}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label={`Registration progress: ${registration.progress}% full`}
-                >
-                  <div
-                    className={`absolute inset-y-0 left-0 rounded-r-full bg-primary-500 transition-all duration-500`}
-                    style={{ width: `${registration.progress}%` }}
-                  />
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

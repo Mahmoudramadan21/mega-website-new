@@ -16,12 +16,12 @@ import { EventData } from '@/types/event';
  *   • Ready for dynamic replacement via API/CMS in the future
  */
 export const upcomingEvent: EventData = {
-  slug: "magicoders",
+  slug: "reddev",
 
-  title: "MagiCoders",
+  title: "RedDev",
 
   description:
-    "Learn how to build a strong CV, understand how companies choose candidates, and gain the skills you need to stand out. MEGA connects you with real companies, internships, and career paths—helping bridge the gap between university and the job market. Whether you're a student or a fresh graduate, this event is for you.",
+    "A 4-week startup and product-building marathon where students, developers, and innovators transform ideas into real products. Participants progress through idea validation, business planning, product design, and MVP development while receiving mentorship from industry experts, attending specialized sessions, and competing for prizes. The journey culminates in an offline Grand Final where the top teams pitch their solutions to a panel of judges.",
 
   state: "open",
 
@@ -29,30 +29,24 @@ export const upcomingEvent: EventData = {
 
   images: [
     {
-      src: "/images/next-event.png",
-      alt: "MagiCoders event poster featuring speakers, workshops, and participants at Mansoura University",
+      src: "/images/RedDev.png",
+      alt: "RedDev event poster featuring speakers, workshops, and participants at Mansoura University",
       width: 630,
       height: 600,
     },
   ],
 
-  dateTime: "2027-01-18",
+  /** ISO date used for countdown & SEO — display range is in meta */
+  dateTime: "2026-07-01T09:00:00",
 
   meta: [
-    { icon: "calendar", label: "Date", value: "Saturday, January 18, 2026" },
-    { icon: "clock", label: "Time", value: "9:00 AM – 6:00 PM" },
-    { icon: "map-pin", label: "Location", value: "ITI, Mansoura University" },
-    { icon: "record", label: "Sessions", value: "6 Sessions" },
+    { icon: "calendar", label: "Date", value: "2026-07 - 2026-08" },
+    { icon: "map-pin", label: "Location", value: "Mansoura University & Online" },
   ],
 
   cta: {
     label: "Learn More",
     href: "/events/upcoming",
-    ariaLabel: "Learn more about MagiCoders event",
-  },
-
-  registration: {
-    registeredCount: 150,
-    progress: 75,
+    ariaLabel: "Learn more about RedDev event",
   },
 } as const;

@@ -1,3 +1,4 @@
+export { default as BoardSection } from './BoardSection';
 export { default as CirclesSection } from './CirclesSection';
 export { default as HeroSection } from './HeroSection';
 export { default as MotivationSection } from './MotivationSection';

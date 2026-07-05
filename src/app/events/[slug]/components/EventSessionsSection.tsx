@@ -46,7 +46,8 @@ function EventSessionsSection({ event, className = '' }: EventSessionsSectionPro
             {event.title}&apos;s Sessions
             </h2>
             <p className="mt-3 text-body">
-            Explore technical and non-technical tracks to enhance your skills
+            {event.sessionsSubtitle ??
+              "Explore technical and non-technical tracks to enhance your skills"}
             </p>
         </div>
 

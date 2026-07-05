@@ -2,6 +2,7 @@ import {
   HeroSection,
   TotalEventsSection,
   UpcomingEventSection,
+  BoardSection,
   PodcastsSection,
   CirclesSection,
   MotivationSection,
@@ -37,6 +38,9 @@ export default function Home() {
 
       {/* Upcoming event highlight – drives immediate engagement and registrations */}
       <UpcomingEventSection />
+
+      {/* Meet Our Board – leadership, non-technical, and technical board members */}
+      <BoardSection />
 
       {/* Technical circles showcase – core community skill-building programs */}
       <CirclesSection />

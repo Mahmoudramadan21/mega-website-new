@@ -10,16 +10,18 @@ import UpcomingEventClient from './UpcomingEventClient';
 function formatEventDate(dateTime: string | undefined): string {
   if (!dateTime) return 'Upcoming Date';
 
-  const datePart = dateTime.split('T')[0]; // Safe extract YYYY-MM-DD
-  try {
-    return new Date(datePart).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  } catch {
-    return 'Upcoming Date';
-  }
+  const displayDate = upcomingEvent.meta.find((m) => m.icon === 'calendar')?.value;
+  if (displayDate) return displayDate;
+
+  const datePart = dateTime.split('T')[0];
+  const date = new Date(datePart);
+  if (Number.isNaN(date.getTime())) return 'Upcoming Date';
+
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }
 
 /**

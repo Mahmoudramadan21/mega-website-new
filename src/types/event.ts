@@ -47,6 +47,29 @@ export interface EventRegistration {
 }
 
 /**
+ * EventStatRibbonItem
+ * Custom stat displayed in the event info ribbon on detail pages.
+ */
+export interface EventStatRibbonItem {
+  icon: "calendar" | "map-pin" | "clock" | "audience";
+  label: string;
+  value: string;
+  ariaLabel?: string;
+}
+
+/**
+ * EventVideo
+ * Video episode entry for events like REDTalks (image, full description, watch link).
+ */
+export interface EventVideo {
+  name: string;
+  description: string;
+  imageSrc: string;
+  imageAlt?: string;
+  watchUrl: string;
+}
+
+/**
  * EventSession
  * Details for individual sessions within an event, including speaker information.
  */
@@ -95,6 +118,8 @@ export interface EventData {
 
   state: EventState;
   link: string;
+  /** Hide the Read More button on the Our Events carousel card */
+  hideReadMore?: boolean;
 
   images: readonly EventImage[];
 
@@ -107,6 +132,13 @@ export interface EventData {
 
   sessionCount?: number;
   sessions?: readonly EventSession[];
+  /** Optional tagline shown below the sessions section heading */
+  sessionsSubtitle?: string;
+  videos?: readonly EventVideo[];
+  /** Optional tagline shown below the videos section heading */
+  videosSubtitle?: string;
+  /** Optional custom stats for the event info ribbon (overrides defaults) */
+  statsRibbon?: readonly EventStatRibbonItem[];
 
   reviews?: readonly EventReview[];
   sponsors?: readonly Sponsor[];

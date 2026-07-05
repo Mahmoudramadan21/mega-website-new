@@ -8,7 +8,7 @@ import {
   EventIntroBannerSection,
   EventStatsRibbon,
   EventSessionsSection,
-  EventReviewsSection,
+  EventVideosSection,
   EventCTASection,
 } from "./components";
 
@@ -143,7 +143,11 @@ export default async function EventPage({ params }: EventPageProps) {
 
           <EventStatsRibbon event={event} />
 
-          <EventSessionsSection event={event} />
+          {event.videos?.length ? (
+            <EventVideosSection event={event} />
+          ) : (
+            <EventSessionsSection event={event} />
+          )}
 
           <EventIntroBannerSection event={event} autoRotateIntervalMs={4500} />
 
@@ -174,9 +178,11 @@ export default async function EventPage({ params }: EventPageProps) {
 
           <EventStatsRibbon event={event} />
 
-          <EventSessionsSection event={event} />
-
-          <EventReviewsSection event={event} />
+          {event.videos?.length ? (
+            <EventVideosSection event={event} />
+          ) : (
+            <EventSessionsSection event={event} />
+          )}
 
           <SponsorsMarquee
             sponsors={event.sponsors}

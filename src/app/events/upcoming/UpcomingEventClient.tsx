@@ -18,34 +18,21 @@ import {
 
 import {
   CalendarIcon,
-  ClockIcon,
   MapPinIcon,
-  RecordIcon,
 } from "@/assets/icons";
 
-const eventMeta = [
-  {
-    icon: "calendar",
-    label: "Date",
-    value:
-      upcomingEvent.meta.find((m) => m.icon === "calendar")?.value || "TBA",
-  },
-  {
-    icon: "clock",
-    label: "Time",
-    value: upcomingEvent.meta.find((m) => m.icon === "clock")?.value || "TBA",
-  },
-  {
-    icon: "map-pin",
-    label: "Location",
-    value:
-      upcomingEvent.meta.find((m) => m.icon === "map-pin")?.value ||
-      "Mansoura University",
-  },
-  ...upcomingEvent.meta
-    .filter((m) => !["calendar", "clock", "map-pin"].includes(m.icon))
-    .map((m) => ({ icon: m.icon, label: m.label, value: m.value })),
-];
+const eventMeta = upcomingEvent.meta.map((m) => ({
+  icon: m.icon,
+  label: m.label,
+  value: m.value,
+}));
+
+function toSafeISOString(dateTime: string | undefined): string | undefined {
+  if (!dateTime) return undefined;
+  const date = new Date(dateTime);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toISOString();
+}
 
 /**
  * UpcomingEventClient
@@ -69,9 +56,7 @@ const eventMeta = [
 export default function UpcomingEventClient() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { timeLeft, isExpired } = useCountdown(
-    upcomingEvent.dateTime ?? "2027-01-18T09:00:00",
-  );
+  const { timeLeft, isExpired } = useCountdown(upcomingEvent.dateTime);
 
   const isEventClosed = isExpired;
 
@@ -89,9 +74,7 @@ export default function UpcomingEventClient() {
             name: upcomingEvent.title,
             description:
               upcomingEvent.description.split("\n\n")[0].slice(0, 300) + "...",
-            startDate: upcomingEvent.dateTime
-              ? new Date(upcomingEvent.dateTime).toISOString()
-              : undefined,
+            startDate: toSafeISOString(upcomingEvent.dateTime),
             eventStatus: isEventClosed
               ? "https://schema.org/EventCancelled"
               : "https://schema.org/EventScheduled",
@@ -147,9 +130,7 @@ export default function UpcomingEventClient() {
               meta={eventMeta}
               customIcons={{
                 calendar: CalendarIcon,
-                clock: ClockIcon,
                 "map-pin": MapPinIcon,
-                record: RecordIcon,
               }}
             />
 

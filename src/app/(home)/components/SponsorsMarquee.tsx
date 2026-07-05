@@ -90,13 +90,19 @@ function SponsorsMarquee({
 
       {/* Show CTA button only if showCTA is true */}
       {showCTA && (
-        <button className="flex items-center justify-center gap-2 px-8 mx-auto my-12 text-sm md:text-base btn focus-ring transition-all duration-300 cursor-pointer">
+        <a
+          href="https://www.linkedin.com/company/mega-team-mu"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-fit px-8 mx-auto my-12 text-sm md:text-base btn focus-ring transition-all duration-300"
+          aria-label="Become a sponsor — opens MEGA Team MU LinkedIn page in a new tab"
+        >
           Become a Sponsor
           <ArrowRightIcon
             aria-hidden="true"
             className="h-5 w-5 pt-0.5 md:pt-1"
           />
-        </button>
+        </a>
       )}
     </section>
   );

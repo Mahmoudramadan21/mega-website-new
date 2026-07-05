@@ -28,7 +28,7 @@ const statusColors: Record<EventData["state"], string> = {
 
  */
 const EventCard = ({ event }: { event: EventData }) => {
-  const { slug, title, description, images, meta, state, link, dateTime } =
+  const { slug, title, description, images, meta, state, link, dateTime, hideReadMore } =
     event;
 
   const dateMeta = meta.find((item) => item.label === "Date");
@@ -40,19 +40,19 @@ const EventCard = ({ event }: { event: EventData }) => {
       aria-labelledby={`event-${slug}-title`}
       tabIndex={0}
       className="relative flex flex-col justify-between items-center lg:items-start gap-4
-        min-w-full md:min-w-94 hover:md:min-w-98
+        min-w-full md:min-w-94 hover:md:min-w-98 min-h-full
         rounded-2xl overflow-hidden select-none bg-neutral-200 hover:bg-neutral-300 card-container
         snap-center lg:snap-start focus-ring transition-all duration-300 group
       "
     >
-      {/* Event Image Container */}
-      <div className="relative w-full h-48 lg:h-56 overflow-hidden rounded-xl">
+      {/* Event Image Container — object-contain shows full poster without cropping */}
+      <div className="relative w-full h-48 lg:h-56 overflow-hidden rounded-xl bg-neutral-300">
         <Image
-          src={images[0].src}
+          src={images[0].src.replace(/ /g, '%20')}
           alt={images[0].alt}
           fill
           sizes="(max-width: 1024px) 90vw, 392px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-contain"
           loading="lazy"
         />
       </div>
@@ -65,8 +65,8 @@ const EventCard = ({ event }: { event: EventData }) => {
         {title}
       </h3>
 
-      {/* Event Description */}
-      <p className="text-body text-neutral-900 line-clamp-4 max-w-77.5 text-center lg:text-left">
+      {/* Event Description — fixed 4-line height so all cards align */}
+      <p className="text-body text-neutral-900 line-clamp-4 min-h-24 max-w-77.5 text-center lg:text-left">
         {description}
       </p>
 
@@ -87,29 +87,41 @@ const EventCard = ({ event }: { event: EventData }) => {
         </div>
       )}
 
-      {/* Call to Action Button */}
-      <Link
-        href={link}
-        className="
-          flex items-center justify-center px-8 gap-2 text-sm md:text-base focus-ring btn group-hover:px-15 group-hover:lg:px-25
-          transition-all duration-300
-        "
-        aria-label={`Learn more about the ${title} event`}
-      >
-        Read More
-        <ArrowRightIcon aria-hidden="true" className="h-5 w-5 pt-0.5 md:pt-1" />
-      </Link>
+      {/* Call to Action Button — invisible spacer keeps card height when hidden */}
+      {hideReadMore ? (
+        <div
+          className="invisible flex items-center justify-center px-8 gap-2 py-2 text-sm md:text-base"
+          aria-hidden="true"
+        >
+          Read More
+          <ArrowRightIcon className="h-5 w-5 pt-0.5 md:pt-1" />
+        </div>
+      ) : (
+        <Link
+          href={link}
+          className="
+            flex items-center justify-center px-8 gap-2 text-sm md:text-base focus-ring btn group-hover:px-15 group-hover:lg:px-25
+            transition-all duration-300
+          "
+          aria-label={`Learn more about the ${title} event`}
+        >
+          Read More
+          <ArrowRightIcon aria-hidden="true" className="h-5 w-5 pt-0.5 md:pt-1" />
+        </Link>
+      )}
 
-      {/* Status Badge */}
-      <span
-        className={`
-          absolute top-4 left-0 px-10 lg:px-12 py-2 rounded-r-full text-sm font-semibold capitalize shadow-md
-          ${statusColors[state]}
-        `}
-        aria-label={`Event status: ${state}`}
-      >
-        {state}
-      </span>
+      {/* Status Badge — hidden for past/closed events */}
+      {state !== "closed" && (
+        <span
+          className={`
+            absolute top-4 left-0 px-10 lg:px-12 py-2 rounded-r-full text-sm font-semibold capitalize shadow-md
+            ${statusColors[state]}
+          `}
+          aria-label={`Event status: ${state}`}
+        >
+          {state}
+        </span>
+      )}
     </article>
   );
 };

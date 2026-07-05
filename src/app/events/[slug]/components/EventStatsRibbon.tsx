@@ -26,6 +26,13 @@ interface EventStatsRibbonSectionProps {
   className?: string;
 }
 
+const iconMap = {
+  audience: AudienceIcon,
+  calendar: CalendarIcon,
+  'map-pin': MapPinIcon,
+  clock: ClockIcon,
+} as const;
+
 function EventStatsRibbon({ event, className = '' }: EventStatsRibbonSectionProps) {
   // Format date nicely – in production consider using date-fns or Intl.DateTimeFormat
   const formattedDate = event.dateTime
@@ -40,7 +47,7 @@ function EventStatsRibbon({ event, className = '' }: EventStatsRibbonSectionProp
     ? `${event.sessionCount} Daily`
     : 'Sessions TBA';
 
-  const stats = [
+  const defaultStats = [
     {
       icon: AudienceIcon,
       label: 'Audience No.',
@@ -67,6 +74,22 @@ function EventStatsRibbon({ event, className = '' }: EventStatsRibbonSectionProp
     },
   ];
 
+  const stats = event.statsRibbon
+    ? event.statsRibbon.map((item) => ({
+        icon: iconMap[item.icon],
+        label: item.label,
+        value: item.value,
+        ariaLabel: item.ariaLabel ?? item.label,
+      }))
+    : defaultStats;
+
+  const gridClass =
+    stats.length === 3
+      ? 'grid-cols-2 lg:grid-cols-3'
+      : stats.length === 2
+        ? 'grid-cols-2'
+        : 'grid-cols-2 lg:grid-cols-4';
+
   return (
     // Main wrapper – full-width with optional custom spacing
     <div className={`relative w-full py-4 lg:py-8 ${className}`}>
@@ -82,11 +105,11 @@ function EventStatsRibbon({ event, className = '' }: EventStatsRibbonSectionProp
         >
           {/* Stats definition list */}
           <dl
-            className="
-              grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8
+            className={`
+              grid ${gridClass} gap-5 sm:gap-8
               w-full
               divide-x divide-primary-400/30 divide-solid
-            "
+            `}
           >
             {stats.map((stat) => (
               <EventStatItem
