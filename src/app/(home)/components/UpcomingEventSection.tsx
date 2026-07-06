@@ -27,7 +27,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
  * - Best Practices: Clear structure, responsive design, meaningful links
  */
 function UpcomingEventSection() {
-  const { title, description, state, link, images, meta, cta } = upcomingEvent;
+  const { title, description, state, images, meta, cta } = upcomingEvent;
 
   return (
     // Main upcoming event section with dark background and vertical padding
@@ -77,18 +77,20 @@ function UpcomingEventSection() {
           {/* Event Details */}
           {/* Text content column with vertical spacing */}
           <div className="flex flex-col gap-6 w-full lg:w-[48%] py-6 lg:py-12">
-            {/* Title + CTA */}
-            {/* Title and primary CTA row with responsive layout */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start justify-between gap-6">
               <h3 className="subsection-title">{title}</h3>
-              <Link
-                href={cta?.href ?? link}
-                className="flex items-center justify-center gap-2 px-12 btn focus-ring"
-                aria-label={cta?.ariaLabel}
-              >
-                {cta?.label ?? "Learn More"}
-                <ArrowRightIcon aria-hidden="true" className="h-5 w-5 pt-1" />
-              </Link>
+              {cta && (
+                <Link
+                  href={cta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-12 btn focus-ring"
+                  aria-label={cta.ariaLabel}
+                >
+                  {cta.label}
+                  <ArrowRightIcon aria-hidden="true" className="h-5 w-5 pt-1" />
+                </Link>
+              )}
             </div>
 
             {/* Description */}

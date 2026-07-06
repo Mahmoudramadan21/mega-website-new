@@ -58,3 +58,21 @@ export interface BackgroundDualEpisode extends BaseEpisodeData {
  * Allows type-safe handling of both single-image and background-dual episodes.
  */
 export type EpisodeData = SingleImageEpisode | BackgroundDualEpisode;
+
+/**
+ * PodcastEpisode
+ *
+ * Poster-style podcast episode used in the MEGA Podcasts section.
+ * Each episode belongs to a season, shows its cover image, and links
+ * to the full video via the "Watch Now" button.
+ */
+export interface PodcastEpisode {
+  id: string;
+  season: number;
+  episode: number;
+  title: string;
+  guest?: string;
+  imageSrc: string;
+  imageAlt?: string;
+  link: string;
+}

@@ -92,6 +92,10 @@ function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
+                    {...(href.startsWith('http') && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    })}
                     className="focus-ring hover:text-white transition-colors"
                   >
                     {label}

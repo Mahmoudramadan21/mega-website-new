@@ -17,7 +17,8 @@ export type CircleType = 'technical' | 'non-technical';
  * - description: Concise overview to engage users and improve SEO through keyword-rich content.
  * - imageSrc: Path to the illustrative image (optimized for lazy loading).
  * - type: Category to enable filtering and grouping.
- * - link: Optional URL for detailed roadmap or page, enhancing navigation and SEO.
+ * - link: Internal URL for the circle detail page.
+ * - roadmapLink: Optional external URL to the circle's learning roadmap (technical circles).
  */
 export interface CircleData {
   slug: string;
@@ -27,6 +28,7 @@ export interface CircleData {
   imageSrc: string;
   type: CircleType;
   link: string;
+  roadmapLink?: string;
   skills?: string[];
   responsibilities?: string[];
 }

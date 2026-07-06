@@ -1,5 +1,8 @@
 import { CircleData } from '@/types/circle';
 
+const ROADMAP_REPO_BASE =
+  'https://github.com/mega-team-mu/Mega-Learning-Roadmaps/tree/main';
+
 /**
  * circles
  *
@@ -136,6 +139,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/cs.svg',
     type: 'technical',
     link: '/circles/computer-science',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Computer-Science`,
   },
   {
     slug: 'data-science',
@@ -153,6 +157,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/data-science.svg',
     type: 'technical',
     link: '/circles/data-science',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Data-Science`,
   },
   {
     slug: 'ui-ux',
@@ -170,6 +175,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/ui-ux.svg',
     type: 'technical',
     link: '/circles/ui-ux',
+    roadmapLink: `${ROADMAP_REPO_BASE}/UI-UX`,
   },
   {
     slug: 'backend-development',
@@ -187,6 +193,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/backend.svg',
     type: 'technical',
     link: '/circles/backend-development',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Back-End`,
   },
   {
     slug: 'frontend-development',
@@ -204,6 +211,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/frontend.svg',
     type: 'technical',
     link: '/circles/frontend-development',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Front-End`,
   },
   {
     slug: 'flutter',
@@ -221,6 +229,7 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/flutter.svg',
     type: 'technical',
     link: '/circles/flutter',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Flutter`,
   },
   {
     slug: 'business-analysis',
@@ -239,5 +248,6 @@ export const circles: CircleData[] = [
     imageSrc: '/circles/cs.svg',
     type: 'technical',
     link: '/circles/business-analysis',
+    roadmapLink: `${ROADMAP_REPO_BASE}/Business-Analysis`,
   },
 ] as const;

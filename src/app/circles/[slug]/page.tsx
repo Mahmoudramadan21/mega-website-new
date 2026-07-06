@@ -135,12 +135,14 @@ export default async function CirclePage({ params }: CirclePageProps) {
         <p className="mb-8 md:text-lg leading-relaxed text-neutral-600 whitespace-pre-line">
           {circle.longDescription}
         </p>
-        {circle.link && (
-          // Optional roadmap CTA button
+        {circle.roadmapLink && circle.type === 'technical' && (
+          // Roadmap CTA for technical circles only
           <Link
-            href={circle.link}
+            href={circle.roadmapLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 px-8 w-fit text-sm md:text-base btn focus-ring transition-all duration-300"
-            aria-label={`View the roadmap for ${circle.title} circle`}
+            aria-label={`View the roadmap for ${circle.title} circle (opens in new tab)`}
           >
             Our Roadmap
             <ArrowRightIcon aria-hidden="true" className="h-5 w-5 pt-0.5 md:pt-1" />

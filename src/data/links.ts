@@ -20,7 +20,7 @@ export const navItems: LinkItem[] = [
  * - Displayed in the "Services" section of the footer
  */
 export const servicesLinks: LinkItem[] = [
-  { label: 'Training', href: '/events/upcoming' },
+  { label: 'Training', href: 'https://www.facebook.com/megateam.mu18' },
   { label: 'Podcast', href: '/#podcasts' },
   { label: 'Events', href: '/#events' },
   { label: 'Workshops', href: '/events/upcoming' },

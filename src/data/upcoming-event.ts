@@ -45,8 +45,8 @@ export const upcomingEvent: EventData = {
   ],
 
   cta: {
-    label: "Learn More",
-    href: "/events/upcoming",
-    ariaLabel: "Learn more about RedDev event",
+    label: "Register Now",
+    href: "https://docs.google.com/forms/d/e/1FAIpQLSe3nfNuNOI1McKSNCpdHbYpk7FUoumFSPcGjDEHDmrxJmq5lA/viewform",
+    ariaLabel: "Register now for RedDev event",
   },
 } as const;

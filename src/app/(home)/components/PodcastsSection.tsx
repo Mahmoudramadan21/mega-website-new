@@ -1,44 +1,81 @@
 'use client';
 
 import React, { memo } from 'react';
-import { backgroundDualEpisodes, imageRightEpisodes } from "@/data/episode";
-import { CarouselArrows, EpisodeCard } from "@/components/ui";
+import { season1Episodes, season2Episodes } from "@/data/episode";
+import { CarouselArrows, PodcastEpisodeCard } from "@/components/ui";
 import { useCarousel } from "@/hooks/useCarousel";
+import { PodcastEpisode } from "@/types/episode";
 
 /**
  * Podcasts Section Component
  *
- * A multi-section horizontal scrolling showcase of MEGA podcast episodes, grouped by visual variant.
+ * A horizontal scrolling showcase of MEGA podcast (MEGast) episodes, grouped by season.
+ * Season 2 is featured on top, followed by Season 1, each rendered as poster-style cards
+ * whose "Watch Now" button links to the full episode video.
+ *
  * Optimized for:
- * - Performance: Memoized, lazy-loaded images (handled in EpisodeCard), minimal re-renders
+ * - Performance: Memoized, lazy-loaded images (handled in PodcastEpisodeCard)
  * - SEO: Semantic structure, proper headings, descriptive content
- * - Accessibility: ARIA regions, labeled sections, focus management
- * - Best Practices: Data-driven, responsive carousels with snap scrolling, consistent spacing
+ * - Accessibility: ARIA regions, labeled sections, focus management, keyboard navigation
+ * - Best Practices: Data-driven, responsive carousels with snap scrolling
  */
+
+interface SeasonCarouselProps {
+  seasonNumber: number;
+  episodes: PodcastEpisode[];
+}
+
+function SeasonCarousel({ seasonNumber, episodes }: SeasonCarouselProps) {
+  const { carouselRef, scrollLeft, scrollRight, handleKeyDown, arrows } =
+    useCarousel(340);
+
+  const headingId = `podcasts-season-${seasonNumber}-title`;
+  const carouselId = `podcasts-carousel-season-${seasonNumber}`;
+
+  return (
+    <div className="mt-10">
+      {/* Season heading */}
+      <h3 id={headingId} className="mb-2 text-xl md:text-2xl font-bold text-neutral-50">
+        Season {seasonNumber}
+      </h3>
+
+      {/* Carousel container */}
+      <div className="relative">
+        <div
+          id={carouselId}
+          ref={carouselRef}
+          className="carousel-x scrollbar-hidden focus-ring"
+          role="region"
+          aria-labelledby={headingId}
+          aria-label={`Season ${seasonNumber} podcast episodes carousel`}
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+        >
+          {episodes.map((episode) => (
+            <PodcastEpisodeCard key={episode.id} {...episode} />
+          ))}
+        </div>
+
+        {/* Navigation arrows */}
+        <CarouselArrows
+          onLeftClick={scrollLeft}
+          onRightClick={scrollRight}
+          controlsId={carouselId}
+          showLeft={arrows.showLeft}
+          showRight={arrows.showRight}
+        />
+      </div>
+    </div>
+  );
+}
+
 function PodcastsSection() {
-  const {
-    carouselRef: refRight,
-    scrollLeft: scrollLeftRight,
-    scrollRight: scrollRightRight,
-    handleKeyDown: handleKeyDownRight,
-    arrows: arrowsRight,
-  } = useCarousel(320);
-
-  const {
-    carouselRef: refDual,
-    scrollLeft: scrollLeftDual,
-    scrollRight: scrollRightDual,
-    handleKeyDown: handleKeyDownDual,
-    arrows: arrowsDual,
-  } = useCarousel(320);
-
   return (
     // Main podcasts section with vertical padding and anchor target
     <section aria-labelledby="podcasts-title" id="podcasts">
       {/* Centered content wrapper */}
       <div className="container">
         {/* Section Heading */}
-        {/* Primary heading with accessible ID reference */}
         <h2 id="podcasts-title" className="section-title">
           MEGA Podcasts
         </h2>
@@ -48,63 +85,9 @@ function PodcastsSection() {
           and innovators.
         </p>
 
-        {/* Carousel container */}
-        <div className="relative">
-          {/* Image-Right Episodes Carousel */}
-          {/* Horizontal carousel for episodes with podcast image on the right */}
-          <div
-            id="podcasts-carousel-right"
-            ref={refRight}
-            className="carousel-x scrollbar-hidden focus-ring"
-            role="region"
-            aria-labelledby="podcasts-title"
-            aria-label="Image-right podcast episodes carousel"
-            tabIndex={0}
-            onKeyDown={handleKeyDownRight}
-          >
-            {imageRightEpisodes.map((episode) => (
-              <EpisodeCard key={episode.id} {...episode} />
-            ))}
-          </div>
-
-          {/* Navigation arrows using CarouselArrows component */}
-          <CarouselArrows
-            onLeftClick={scrollLeftRight}
-            onRightClick={scrollRightRight}
-            controlsId="podcasts-carousel-right"
-            showLeft={arrowsRight.showLeft}
-            showRight={arrowsRight.showRight}
-          />
-        </div>
-
-        {/* Carousel container */}
-        <div className="relative">
-          {/* Background-Dual Episodes Carousel */}
-          {/* Horizontal carousel for episodes with dual decorative background images */}
-          <div
-            id="podcasts-carousel-dual"
-            ref={refDual}
-            className="carousel-x scrollbar-hidden focus-ring"
-            role="region"
-            aria-labelledby="podcasts-title"
-            aria-label="Background-dual podcast episodes carousel"
-            tabIndex={0}
-            onKeyDown={handleKeyDownDual}
-          >
-            {backgroundDualEpisodes.map((episode) => (
-              <EpisodeCard key={episode.id} {...episode} />
-            ))}
-          </div>
-
-          {/* Navigation arrows using CarouselArrows component */}
-          <CarouselArrows
-            onLeftClick={scrollLeftDual}
-            onRightClick={scrollRightDual}
-            controlsId="podcasts-carousel-dual"
-            showLeft={arrowsDual.showLeft}
-            showRight={arrowsDual.showRight}
-          />
-        </div>
+        {/* Season 2 on top, then Season 1 */}
+        <SeasonCarousel seasonNumber={2} episodes={season2Episodes} />
+        <SeasonCarousel seasonNumber={1} episodes={season1Episodes} />
       </div>
     </section>
   );
