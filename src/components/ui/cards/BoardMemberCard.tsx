@@ -18,14 +18,16 @@ import { BoardMember } from '@/types/board';
  * - Snap alignment + fixed min width for smooth carousel behavior.
  * - Tailwind classes ordered: Layout → Box Model → Typography → Visual → Transitions
  */
-const BoardMemberCard = ({ id, name, position, image }: BoardMember) => {
+const BoardMemberCard = ({ id, name, position, image, linkedin }: BoardMember) => {
   const isLeadPosition = /Head|Mentor/.test(position);
 
   return (
-  <article
-    role="group"
+  <a
+    href={linkedin}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`View ${name}'s LinkedIn profile — ${position} at MEGA`}
     aria-labelledby={`${id}-name`}
-    tabIndex={0}
     className="group flex flex-col shrink-0 snap-center w-56 md:w-64 overflow-hidden rounded-2xl select-none bg-neutral-200 hover:bg-neutral-300 focus-ring transition-colors duration-300"
   >
     {/* Member Photo */}
@@ -56,7 +58,7 @@ const BoardMemberCard = ({ id, name, position, image }: BoardMember) => {
         {name}
       </h3>
     </div>
-  </article>
+  </a>
   );
 };
 
