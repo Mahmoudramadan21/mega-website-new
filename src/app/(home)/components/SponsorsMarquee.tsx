@@ -60,17 +60,11 @@ function SponsorsMarquee({
           tabIndex={0}
         >
           {/* Duplicate the list for seamless infinite effect */}
-          {[...sponsors, ...sponsors].map((sponsor, index) => (
-            // Individual sponsor item - non-shrinking with centered logo
-            <li
-              key={`${sponsor.id}-${index}`}
-              className="flex shrink-0 items-center justify-center px-4"
-            >
-              {/* Logo figure with fixed size and focus support */}
+          {[...sponsors, ...sponsors].map((sponsor, index) => {
+            const logo = (
               <figure
-                className="relative w-40 h-40 focus-ring"
+                className="relative w-40 h-40"
                 aria-label={sponsor.name}
-                tabIndex={0}
               >
                 <Image
                   src={sponsor.logo}
@@ -83,8 +77,32 @@ function SponsorsMarquee({
                 />
                 <figcaption className="sr-only">{sponsor.name}</figcaption>
               </figure>
-            </li>
-          ))}
+            );
+
+            return (
+              // Individual sponsor item - non-shrinking with centered logo
+              <li
+                key={`${sponsor.id}-${index}`}
+                className="flex shrink-0 items-center justify-center px-4"
+              >
+                {sponsor.url ? (
+                  <a
+                    href={sponsor.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring rounded-sm transition-opacity hover:opacity-80"
+                    aria-label={`Visit ${sponsor.name} website`}
+                  >
+                    {logo}
+                  </a>
+                ) : (
+                  <div className="focus-ring" tabIndex={0}>
+                    {logo}
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
 

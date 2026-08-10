@@ -24,4 +24,10 @@ export const sponsors: Sponsor[] = [
   { id: 5, name: "ITI", logo: "/logos/iti.png" },
   { id: 6, name: "Creativa", logo: "/logos/creativa.png" },
   { id: 7, name: "Madarek Academy", logo: "/logos/madarek.png" },
+  {
+    id: 8,
+    name: "Techne",
+    logo: "/logos/techne.png",
+    url: "https://techne.me/",
+  },
 ] as const;

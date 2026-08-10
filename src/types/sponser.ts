@@ -6,9 +6,11 @@
  * - id: Unique identifier.
  * - name: Official name of the sponsor (used in alt text for SEO and accessibility).
  * - logo: Path to the sponsor's logo image (optimized for lazy loading).
+ * - url: Optional link to the sponsor's website (makes the logo clickable).
  */
 export interface Sponsor {
   id: number;
   name: string;
   logo: string;
+  url?: string;
 }
